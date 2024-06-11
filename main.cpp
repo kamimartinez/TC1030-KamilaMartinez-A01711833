@@ -1,48 +1,47 @@
 #include <bits/stdc++.h>
 #include "medico.h"
-#include "cardiologo.h"
-#include "pediatra.h"
 #include "factura.h"
-#include "tratamiento.h"
 #include "cita.h"
 #include "paciente.h"
 
 using namespace std;
 
 int main() {
-	Paciente kamila(123457, "Kamila Martinez", 18, "79035898");
-	cout << kamila.getNombre() << endl;
-	
-    // Crear un objeto de Cardiologo
-    cardiologo* card = new cardiologo(1, "Dr. Smith", 40, "Universidad XYZ", "10 años de experiencia");
+    cout << "kehrbckire" << endl;
+    Paciente kamila(123457, "Kamila Martinez", 18, "79035898");
+    cout << kamila.getNombre() << endl;
 
-    // Crear un objeto de Pediatra
-    pediatra* ped = new pediatra(2, "Dr. Johnson", 35, 50);
+    Cita c("Lunes 26 de Mayo", "2 pm");
 
-    // Crear un objeto de Cita
-    Cita cita(1, "2024-05-23", "10:00");
-    cita.setCardiologo(card);
-    cita.setPediatra(ped);
+    Medico* m = new Cardiologo(1, "Dr. Smith", 40, "Universidad XYZ", "10 años de experiencia");
+    Medico* m2 = new Pediatra(2, "Dr. Williams", 55, 3);
 
-    // Crear un objeto de Factura
-    factura f("2024-05-23", 100.0);
-    cita.setFactura(f);
+    c.agrega_medico(m);
 
-    // Agregar un tratamiento a la cita
-    tratamiento t("Medicina A", 30);
-    cita.addTratamiento(t);
+    float precio_base;
+    cout << "Ingresa el precio base para el costo de los medicos para Cita 1: " << endl;
+    cin >> precio_base;
 
-    // Agregar monto a la factura
-    cita.agregarMonto(50.0);
+    c.calc_pago(precio_base);
 
-    // Imprimir información de la cita y factura
-    cout << "Información de la cita:" << endl;
-    cout << "Doctor Type: " << cita.get_tp() << endl;
-    cout << "Fecha: " << cita.get_fecha() << endl;
-    cout << "Hora: " << cita.get_hora() << endl;
-    cout << "Factura:" << endl;
-    cita.hacerFactura();
+    c.imprimir_factura();
 
-    
+    kamila.agendar_cita(c);
+
+    Cita c2("Martes 31 de Febrero", "5 pm");
+
+    c2.agrega_medico(m2);
+
+    cout << "Ingresa el precio base para el costo de los medicos para Cita 2: " << endl;
+    cin >> precio_base;
+
+    c2.calc_pago(precio_base);
+
+    c2.imprimir_factura();
+
+    kamila.agendar_cita(c2);
+
+    kamila.muestra_citas();
+
     return 0;
 }
