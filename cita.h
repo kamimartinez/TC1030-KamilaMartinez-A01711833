@@ -4,77 +4,79 @@
 #include <bits/stdc++.h>
 #include "medico.h"
 #include "factura.h"
-#include "tratamiento.h"
 
 using namespace std;
 
 class Cita {
-	private:
-    medico * med[10000];
-    int i_med;
-    string fecha;
-    string hora;
-    factura f; 
-    vector<tratamiento> tratamientos; 
-	public:
-	// Constructors
-	Cita() :  fecha(""), hora(""), i_med(0) {};
-	Cita(const string& date, const string& hour) : fecha(date), hora(hour), i_med(0) {};
+    private:
+        Medico* medicos[10000];
+        int i_med;
+        string fecha;
+        string hora;
+        Factura f; 
 
-	// Getters
-	
-	string get_fecha() const {
-		return fecha;
-	}
-	string get_hora() const {
-		return hora;
-	}
+    public:
+        // Constructors
+        Cita() : i_med(0), fecha(""), hora(""), f(Factura()) {}; 
+        Cita( string date,  string hour) : i_med(0), fecha(date), hora(hour), f(Factura(date, 0)) {};
 
-	// Setters 
-	
-	void set_fecha(const string& date) {
-		fecha = date;		
-	}
-	void set_hora(const string& hour) {
-		hora = hour;
-	}
-	
-	// Metodos
-    void crea_doctores(int n) {
-		int idD=100000;
-		string name;
-		for(int i=0;i<n;i++) {
-			int x;
-			cout << "¿Que tipo de doctor quieres agregar? Cardiologo(0) Pediatra(1)" << endl;
-			cin >> x;
-			i_med++;
-			if(x==0) {
-				cout << "Introduce el nombre" << endl;
-				cin >> name;
-				med[i_med] = new cardiologo(idD, name, 45, "Tecnologico de Monterrey", "basico");
-				idD++;
-			} else {
-				cout << "Introduce el nombre" << endl;
-				cin >> name;
-				med[i_med] = new pediatra(idD, name, 45, 0);
-				idD++;
-			}
-		}
- 	}
+        // Getters
+        string get_fecha() {
+            return fecha;
+        }
+        string get_hora() {
+            return hora;
+        }
 
-    // Metodos
-    void addTratamiento(const tratamiento& trat) {
-        tratamientos.push_back(trat);
-    }
-	
-	void addMontoToFactura(float monto) {
-        f.agregarMonto(monto);
-    }
+        // Setters
+        void set_fecha( string date) {
+            fecha = date;
+        }
+        void set_hora(string hour) {
+            hora = hour;
+        }
 
-    void printFactura()  {
-        f.hacerFactura();
-    }
+        // Metodos
+        void muestra_medicos();
+        void muestra_medicos(string);
+        void agrega_medico(Medico* medico);
+        void calc_pago(float);
+        void imprimir_factura();
+        string toString();
 };
 
-#endif // CITA_H
+void Cita::muestra_medicos() {
+    for (int i = 0; i < i_med; i++) {
+        cout << medicos[i]->toString();
+    }
+}
 
+void Cita::muestra_medicos(string tipo) {
+    for (int i = 0; i < i_med; i++) {
+        if (medicos[i]->get_tipo() == tipo) {
+            cout << medicos[i]->toString();
+        }
+    }
+}
+
+void Cita::agrega_medico(Medico* medico) {
+    medicos[i_med] = medico;
+    i_med++;
+}
+
+void Cita::calc_pago(float precio_base) {
+    for (int i = 0; i < i_med; i++) {
+        f.agregarMonto(medicos[i]->monto_a_cobrar(precio_base));
+    }
+}
+
+void Cita::imprimir_factura() {
+    f.hacerFactura();
+}
+
+string Cita::toString() {
+    stringstream aux;
+    aux << "La cita es el dia " << get_fecha() << " a las " << get_hora() << "\n";
+    return aux.str();
+}
+#endif // CITA_H
