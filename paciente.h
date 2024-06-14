@@ -2,71 +2,63 @@
 #define PACIENTE_H
 
 #include <bits/stdc++.h>
-#include "medico.h"
-#include "factura.h"
 #include "cita.h"
 
-using namespace std;
-
 class Paciente {
-    private:
-        long long id;
-        string nombre;
-        int edad;
-        string telefono;
-        Cita citas[10000];
-        int i_c;
+private:
+    long long id;
+    string nombre;
+    int edad;
+    string telefono;
+    Cita* citas;
+    int numCitas;
+    int capacidad;
 
-    public:
-        // Constructors
-        Paciente() : id(0), nombre(""), edad(0), telefono(""), i_c(0) {}
-        Paciente(long long id_, string name, int age, string tel) 
-            : id(id_), nombre(name), edad(age), telefono(tel), i_c(0) {}
+public:
+    // Constructors
+    Paciente() : id(0), nombre(""), edad(0), telefono(""), citas(nullptr), numCitas(0), capacidad(0) {}
+    Paciente(long long id_, std::string name, int age, std::string tel) 
+        : id(id_), nombre(name), edad(age), telefono(tel), citas(nullptr), numCitas(0), capacidad(0) {}
 
-        // Getters
-        long long getId() {
-            return id;
-        }
-        string getNombre() {
-            return nombre;
-        }
-        int getEdad(){
-            return edad;
-        }
-        string getTelefono() {
-            return telefono;
-        }
+    
+    // Getters
+    long long getId() const { return id; }
+    std::string getNombre() const { return nombre; }
+    int getEdad() const { return edad; }
+    std::string getTelefono() const { return telefono; }
 
-        // Setters
-        void setId(long long id_) {
-            id = id_;
-        }
-        void setNombre(string name) {
-            nombre = name;
-        }
-        void setEdad(int age) {
-            edad = age;
-        }
-        void setTelefono(string tel) {
-            telefono = tel;
-        }
+    // Setters
+    void setId(long long id_) { id = id_; }
+    void setNombre(std::string name) { nombre = name; }
+    void setEdad(int age) { edad = age; }
+    void setTelefono(std::string tel) { telefono = tel; }
 
-		void agendar_cita(Cita);
-		void muestra_citas();
+    void agendar_cita(const Cita& c);
+    void muestra_citas() const;
 };
 
-void Paciente::agendar_cita(Cita c) {
-    citas[i_c] = c;
-    i_c++;
+void Paciente::agendar_cita(const Cita& c) {
+    if (numCitas == capacidad) {
+        // Si el arreglo está lleno, duplica su capacidad
+        capacidad = (capacidad == 0) ? 1 : capacidad * 2;
+        Cita* nuevoArreglo = new Cita[capacidad];
+        for (int i = 0; i < numCitas; ++i) {
+            nuevoArreglo[i] = citas[i];
+        }
+        delete[] citas;
+        citas = nuevoArreglo;
+    }
+    citas[numCitas++] = c;
 }
 
-void Paciente::muestra_citas() {
-    for (int i = 0; i < i_c; i++) {
-        cout << citas[i].toString(); 
+void Paciente::muestra_citas() const {
+    for (int i = 0; i < numCitas; ++i) {
+        std::cout << citas[i].toString() << std::endl;
     }
 }
 
 #endif // PACIENTE_H
+
 
 
 
