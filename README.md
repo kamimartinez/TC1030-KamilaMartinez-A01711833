@@ -7,6 +7,6 @@ Este proyecto permite tener un control sobre las citas del paciente y poder calc
 ### Dificultades al momento de desarrollar el proyecto
 El manejo de punteros para poder realizar un polimorfismo adecuado fue la mayor dificultad experimentada. Sin embargo, despues de una larga investigación y estudio de estos se puede concluir que se supero esta dificultad.
 
-## Casos que harian que proyecto deje de funcionar
+## Casos que harian que el proyecto deje de funcionar
 Debido al tipo de variables que estamos trabajando, como int, long long y string, un mal input de cualquiera de estas haria que el proyeto no funcionara de la manera que se esperaria. Un mal manejo de punteros tambien ocasionaria que el proyecto deje de funcionar. Inclusive en el proceso de creacion del proyecto, un mal manejo de estos impidio que el proyecto fluyero con mayor rapidez.
 
